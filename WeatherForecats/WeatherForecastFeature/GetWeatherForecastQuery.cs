@@ -8,6 +8,10 @@ namespace WeatherForecats.WeatherForecastFeature
 {
     public class GetWeatherForecastQuery : IRequest<IEnumerable<WeatherForecast>>
     {
-        public int Day { get; set; }
+        public int Day;
+        public GetWeatherForecastQuery(int day)
+        {
+            Day = day;
+        }
     }
 }

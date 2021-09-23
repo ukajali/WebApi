@@ -27,7 +27,7 @@ namespace WeatherForecats.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int day)
         {
-            return Ok(await Mediator.Send(new GetWeatherForecastQuery() { Day = day}));
+            return Ok(await Mediator.Send(new GetWeatherForecastQuery(day)));
         }
     }
 }
