@@ -17,17 +17,19 @@ namespace WeatherForecats.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
 
         private IMediator _mediator;
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            IMediator mediator,
+            ILogger<WeatherForecastController> logger)
         {
+            _mediator = mediator;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int day)
+        public async Task<IActionResult> Get(int? days)
         {
-            return Ok(await Mediator.Send(new GetWeatherForecastQuery(day)));
+            return Ok(await _mediator.Send(new GetWeatherForecastQuery(days)));
         }
     }
 }

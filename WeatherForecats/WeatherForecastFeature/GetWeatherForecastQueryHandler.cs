@@ -17,7 +17,7 @@ namespace WeatherForecats.WeatherForecastFeature
         public Task<IEnumerable<WeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
         {
             var rng = new Random();
-            var weatherForecastResult = Enumerable.Range(1, request.Day).Select(index => new WeatherForecast
+            var weatherForecastResult = Enumerable.Range(1, request.Days).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
