@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherForecats.DataBase;
+using WeatherForecats.Services;
 
 namespace WeatherForecats
 {
@@ -27,6 +29,8 @@ namespace WeatherForecats
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDatabaseInMemory, DatabaseInMemory>();
+            services.AddScoped<ITemperatureServices, TemperatureServices>();
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>

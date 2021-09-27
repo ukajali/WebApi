@@ -1,8 +1,9 @@
 using System;
 
-namespace WeatherForecats
+namespace WeatherForecats.Dto
+
 {
-    public class WeatherForecast
+    public class WeatherForecastDto
     {
         public DateTime Date { get; set; }
 
