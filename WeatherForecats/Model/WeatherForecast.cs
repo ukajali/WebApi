@@ -1,6 +1,7 @@
 using System;
 
-namespace WeatherForecats
+namespace WeatherForecats.Model
+
 {
     public class WeatherForecast
     {
