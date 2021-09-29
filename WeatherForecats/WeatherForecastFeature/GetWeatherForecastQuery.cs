@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WeatherForecats.Dto;
+using WeatherForecats.Model;
 
 namespace WeatherForecats.WeatherForecastFeature
 {
-    public class GetWeatherForecastQuery : IRequest<IEnumerable<WeatherForecastDto>>
+    public class GetWeatherForecastQuery : IRequest<IEnumerable<WeatherForecast>>
     {
         public int Days { get; }
         public string Location { get; }
