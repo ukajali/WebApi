@@ -17,7 +17,6 @@ namespace WeatherForecats.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
-
         private IMediator _mediator;
         private readonly IMapper _mapper;
 
@@ -31,7 +30,7 @@ namespace WeatherForecats.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int days, string location)
         {
-            return Ok(_mapper.Map<List<WeatherForecastDto>>(await _mediator.Send(new GetWeatherForecastQuery(days, location))));          
+            return Ok(_mapper.Map<List<WeatherForecastDto>>(await _mediator.Send(new GetWeatherForecastQuery(days, location))));         
         }
     }
 }

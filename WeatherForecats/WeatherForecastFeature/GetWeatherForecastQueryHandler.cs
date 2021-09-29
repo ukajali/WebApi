@@ -42,7 +42,6 @@ namespace WeatherForecats.WeatherForecastFeature
         {
             if (temperatureRange == null)
                 throw new ArgumentException("not found temerature range for specific location");
-        }
-       
+        }      
     }
 }
