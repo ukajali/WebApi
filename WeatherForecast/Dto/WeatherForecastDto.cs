@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WeatherForecats.Dto
+namespace WeatherForecast.Dto
 {
     public class WeatherForecastDto
     {

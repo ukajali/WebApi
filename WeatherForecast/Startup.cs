@@ -12,11 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WeatherForecats.Model;
-using WeatherForecats.Repositories;
+using WeatherForecast.Model;
+using WeatherForecast.Repositories;
 
 
-namespace WeatherForecats
+namespace WeatherForecast
 {
     public class Startup
     {
@@ -36,7 +36,7 @@ namespace WeatherForecats
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherForecats", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherForecast", Version = "v1" });
             });
         }
 
@@ -47,7 +47,7 @@ namespace WeatherForecats
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherForecats v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherForecast v1"));
             }
 
             app.UseHttpsRedirection();
