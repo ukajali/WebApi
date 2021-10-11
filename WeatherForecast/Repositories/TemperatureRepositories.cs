@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeatherForecats.Model;
-using WeatherForecats.Repositories.DataBaseInMemory;
+using WeatherForecast.Model;
+using WeatherForecast.Repositories.DataBaseInMemory;
 
-namespace WeatherForecats.Repositories
+namespace WeatherForecast.Repositories
 {
     public class TemperatureRepositories: IRepository<TemperatureRange>
     {

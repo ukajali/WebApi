@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using WeatherForecats.WeatherForecastFeature;
 using AutoMapper;
-using WeatherForecats.Dto;
+using WeatherForecast.Dto;
+using WeatherForecast.WeatherForecastFeature;
 
-namespace WeatherForecats.Controllers
+namespace WeatherForecast.Controllers
 {
     [ApiController]
     [Route("[controller]")]

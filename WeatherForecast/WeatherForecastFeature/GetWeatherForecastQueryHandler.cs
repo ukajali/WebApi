@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeatherForecats.Dto;
-using WeatherForecats.Model;
-using WeatherForecats.Repositories;
+using WeatherForecast.Model;
+using WeatherForecast.Repositories;
+using WeatherForecast.Dto;
 
-namespace WeatherForecats.WeatherForecastFeature
+namespace WeatherForecast.WeatherForecastFeature
 {
-    public class GetWeatherForecastQueryHandler : IRequestHandler<GetWeatherForecastQuery, IEnumerable<WeatherForecast>>
+    public class GetWeatherForecastQueryHandler : IRequestHandler<GetWeatherForecastQuery, IEnumerable<Model.WeatherForecast>>
     {
         private static readonly string[] Summaries = new[]
         {
@@ -23,13 +23,13 @@ namespace WeatherForecats.WeatherForecastFeature
         {
             _temperatureRepository = temperatureRepository;
         }
-        public Task<IEnumerable<WeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<Model.WeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
         {
 
             var rng = new Random();
             var temperatureRange = _temperatureRepository.Get(request.Location);
             Validate(temperatureRange);
-            var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new WeatherForecast
+            var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new Model.WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(temperatureRange.Low, temperatureRange.High),

@@ -1,7 +1,7 @@
-﻿using WeatherForecats.Dto;
-using WeatherForecats.Model;
+﻿using WeatherForecast.Model;
+using WeatherForecast.Dto;
 
-namespace WeatherForecats.Repositories.DataBaseInMemory
+namespace WeatherForecast.Repositories.DataBaseInMemory
 {
     public static class DatabaseInMemory 
     {
