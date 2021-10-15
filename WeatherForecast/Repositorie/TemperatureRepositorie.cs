@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
-using WeatherForecast.Repositories.DataBaseInMemory;
+using WeatherForecast.Repositorie.DataBaseInMemory;
 
-namespace WeatherForecast.Repositories
+namespace WeatherForecast.Repositorie
 {
-    public class TemperatureRepositories: IRepository<TemperatureRange>
+    public class TemperatureRepositorie: ITemperatureRepositorie
     {
         public TemperatureRange Get(string location)
         {

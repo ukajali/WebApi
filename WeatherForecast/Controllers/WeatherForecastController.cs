@@ -28,9 +28,9 @@ namespace WeatherForecast.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int days, string location)
+        public async Task<IActionResult> Get(int days, string location, string date)
         {
-            return Ok(_mapper.Map<List<WeatherForecastDto>>(await _mediator.Send(new GetWeatherForecastQuery(days, location))));         
+            return Ok(_mapper.Map<List<WeatherForecastDto>>(await _mediator.Send(new GetWeatherForecastQuery(days, location, date))));         
         }
     }
 }

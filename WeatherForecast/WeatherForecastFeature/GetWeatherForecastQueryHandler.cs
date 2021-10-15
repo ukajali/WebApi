@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
-using WeatherForecast.Repositories;
+using WeatherForecast.Repositorie;
 using WeatherForecast.Dto;
 
 namespace WeatherForecast.WeatherForecastFeature
@@ -17,21 +17,20 @@ namespace WeatherForecast.WeatherForecastFeature
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-        private readonly IRepository<TemperatureRange> _temperatureRepository;
+        private readonly ITemperatureRepositorie _temperatureRepository;
 
-        public GetWeatherForecastQueryHandler(IRepository<TemperatureRange> temperatureRepository)
+        public GetWeatherForecastQueryHandler(ITemperatureRepositorie temperatureRepository)
         {
             _temperatureRepository = temperatureRepository;
         }
         public Task<IEnumerable<Model.WeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
         {
-
             var rng = new Random();
             var temperatureRange = _temperatureRepository.Get(request.Location);
             Validate(temperatureRange);
             var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new Model.WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = request.Date.AddDays(index),
                 TemperatureC = rng.Next(temperatureRange.Low, temperatureRange.High),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             }).AsEnumerable();

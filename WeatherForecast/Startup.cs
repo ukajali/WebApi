@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
-using WeatherForecast.Repositories;
+using WeatherForecast.Repositorie;
 
 
 namespace WeatherForecast
@@ -31,7 +31,7 @@ namespace WeatherForecast
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<IRepository<TemperatureRange>, TemperatureRepositories>();
+            services.AddScoped<ITemperatureRepositorie, TemperatureRepositorie>();
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>
