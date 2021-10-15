@@ -1,6 +1,6 @@
 using System.Threading;
 using Moq;
-using WeatherForecast.Repositorie;
+using WeatherForecast.Repositories;
 using WeatherForecast.WeatherForecastFeature;
 using Xunit;
 

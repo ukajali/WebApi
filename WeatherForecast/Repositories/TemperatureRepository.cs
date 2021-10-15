@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
-using WeatherForecast.Repositorie.DataBaseInMemory;
+using WeatherForecast.Repositories.DataBaseInMemory;
 
-namespace WeatherForecast.Repositorie
+namespace WeatherForecast.Repositories
 {
     public class TemperatureRepository: ITemperatureRepository
     {

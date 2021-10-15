@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
-using WeatherForecast.Repositorie;
-using WeatherForecast.Dto;
+using WeatherForecast.Repositories;
 
 namespace WeatherForecast.WeatherForecastFeature
 {
@@ -41,7 +39,7 @@ namespace WeatherForecast.WeatherForecastFeature
         private void Validate(TemperatureRange temperatureRange)
         {
             if (temperatureRange == null)
-                throw new ArgumentException("not found temerature range for specific location");
+                throw new ArgumentException("not found temperature range for specific location");
         }      
     }
 }

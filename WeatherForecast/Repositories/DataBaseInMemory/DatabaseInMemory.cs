@@ -1,11 +1,10 @@
 ﻿using WeatherForecast.Model;
-using WeatherForecast.Dto;
 
-namespace WeatherForecast.Repositorie.DataBaseInMemory
+namespace WeatherForecast.Repositories.DataBaseInMemory
 {
     public static class DatabaseInMemory 
     {
-        public static Climate[] LocationClimates = new[]
+        public static readonly Climate[] LocationClimates = new[]
         {
 
             new Climate{ Location = "poland/cracow", LowTemperature=-15, HighTemperature=38 },
