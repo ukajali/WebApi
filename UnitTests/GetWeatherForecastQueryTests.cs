@@ -1,5 +1,4 @@
-using System;
-using System.Data;
+using System.Threading;
 using Moq;
 using WeatherForecast.Repositorie;
 using WeatherForecast.WeatherForecastFeature;
@@ -20,7 +19,7 @@ namespace UnitTests
         [Fact]
         public void Test1()
         {
-            _sut.Handle(new GetWeatherForecastQuery(5,"germany/bonn"))
+            _sut.Handle(new GetWeatherForecastQuery(5, "germany/bonn"), CancellationToken.None);
         }
     }
 }

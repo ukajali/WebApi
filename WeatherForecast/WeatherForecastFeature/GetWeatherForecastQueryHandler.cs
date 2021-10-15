@@ -28,9 +28,10 @@ namespace WeatherForecast.WeatherForecastFeature
             var rng = new Random();
             var temperatureRange = _temperatureRepository.Get(request.Location);
             Validate(temperatureRange);
+            var startDate = DateTime.Now;
             var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new Model.WeatherForecast
             {
-                Date = request.Date.AddDays(index),
+                Date = startDate.AddDays(index),
                 TemperatureC = rng.Next(temperatureRange.Low, temperatureRange.High),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             }).AsEnumerable();
