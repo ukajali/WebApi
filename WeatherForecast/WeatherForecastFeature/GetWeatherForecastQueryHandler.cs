@@ -17,9 +17,9 @@ namespace WeatherForecast.WeatherForecastFeature
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-        private readonly ITemperatureRepositorie _temperatureRepository;
+        private readonly ITemperatureRepository _temperatureRepository;
 
-        public GetWeatherForecastQueryHandler(ITemperatureRepositorie temperatureRepository)
+        public GetWeatherForecastQueryHandler(ITemperatureRepository temperatureRepository)
         {
             _temperatureRepository = temperatureRepository;
         }

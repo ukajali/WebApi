@@ -8,7 +8,7 @@ using WeatherForecast.Repositorie.DataBaseInMemory;
 
 namespace WeatherForecast.Repositorie
 {
-    public class TemperatureRepositorie: ITemperatureRepositorie
+    public class TemperatureRepository: ITemperatureRepository
     {
         public TemperatureRange Get(string location)
         {

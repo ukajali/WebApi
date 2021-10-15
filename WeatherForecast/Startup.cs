@@ -31,7 +31,7 @@ namespace WeatherForecast
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ITemperatureRepositorie, TemperatureRepositorie>();
+            services.AddScoped<ITemperatureRepository, TemperatureRepository>();
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>

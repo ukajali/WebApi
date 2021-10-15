@@ -6,7 +6,7 @@ using WeatherForecast.Model;
 
 namespace WeatherForecast.Repositorie
 {
-    public interface ITemperatureRepositorie
+    public interface ITemperatureRepository
     {
         TemperatureRange Get(string str);
     }
