@@ -14,6 +14,7 @@ namespace UnitTests
     {
         private readonly GetWeatherForecastQueryHandler _sut;
         private readonly Mock<ITemperatureRepository> _temperatureRepositoryMock;
+        private readonly Mock<TimeProvider> _timeMock = new Mock<TimeProvider>();
 
         public GetWeatherForecastQueryTests()
         {
@@ -21,21 +22,30 @@ namespace UnitTests
             _sut = new GetWeatherForecastQueryHandler(_temperatureRepositoryMock.Object);
         }
         
-        [Fact]
-        public async Task WhenDays5_And_LocationBonn()
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(14)]
+        public async Task WhenDays_And_LocationBonn(int days)
         {
             // arrange
             const string location = "germany/bonn";
-            const int days = 5;
             _temperatureRepositoryMock
                 .Setup(x => x.Get(location))
                 .Returns(new TemperatureRange(0, 10));
-            
+
+            var testTime = DateTime.UtcNow;
+            _timeMock.Setup(tp => tp.UtcNow).Returns(testTime);
+            TimeProvider.Current = _timeMock.Object;
+
             // act
             var forecasts = await _sut.Handle(new GetWeatherForecastQuery(days, location), CancellationToken.None);
 
             // assert
-            Assert.Equal(DateTime.Now.AddDays(1), forecasts.ToArray()[0].Date);
+            for(int x = 0; x < days; x++)
+            {
+                Assert.Equal(testTime.AddDays(x+1), forecasts.ToArray()[x].Date);
+            }          
         }
     }
 }

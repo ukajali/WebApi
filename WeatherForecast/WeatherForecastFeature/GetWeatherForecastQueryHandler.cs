@@ -26,7 +26,9 @@ namespace WeatherForecast.WeatherForecastFeature
             var rng = new Random();
             var temperatureRange = _temperatureRepository.Get(request.Location);
             Validate(temperatureRange);
-            var startDate = DateTime.Now;
+
+            var startDate = TimeProvider.Current.UtcNow;
+
             var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new Model.WeatherForecast
             {
                 Date = startDate.AddDays(index),
