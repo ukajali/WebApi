@@ -1,52 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WeatherForecast.Model
 {
     public abstract class TimeProvider
     {
-        private static TimeProvider current = DefaultTimeProvider.Instance;
+        private static TimeProvider _current = DefaultTimeProvider.Instance;
 
         public static TimeProvider Current
         {
-            get { return current; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-                TimeProvider.current = value;
-            }
+            get => _current;
+            set => _current = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public abstract DateTime UtcNow { get; }
 
         public static void ResetToDefault()
         {
-            TimeProvider.current = DefaultTimeProvider.Instance;
+            _current = DefaultTimeProvider.Instance;
         }
     }
     public class DefaultTimeProvider : TimeProvider
     {
-        private static TimeProvider instance;
+        private static TimeProvider _instance;
 
-        public static TimeProvider Instance
-        {
-            get { return instance ?? (instance = new DefaultTimeProvider()); }
-        }
+        public static TimeProvider Instance => _instance ??= new DefaultTimeProvider();
 
-        private DefaultTimeProvider()
-        {
+        private DefaultTimeProvider() { }
 
-        }
-
-        public override DateTime UtcNow
-        {
-            get { return DateTime.UtcNow; }
-        }
+        public override DateTime UtcNow => DateTime.UtcNow;
     }
 }
