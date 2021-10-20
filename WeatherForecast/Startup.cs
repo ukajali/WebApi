@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WeatherForecast.Contracts;
+using WeatherForecast.Providers;
 using WeatherForecast.Repositories;
 
 
@@ -24,6 +26,8 @@ namespace WeatherForecast
         {
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ITemperatureRepository, TemperatureRepository>();
+            services.AddScoped<INowProvider, NowProvider>();
+            services.AddScoped<IRandomGenerator, RandomGenerator>();
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>
