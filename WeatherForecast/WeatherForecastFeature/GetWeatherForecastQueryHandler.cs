@@ -10,7 +10,7 @@ using WeatherForecast.Repositories;
 
 namespace WeatherForecast.WeatherForecastFeature
 {
-    public class GetWeatherForecastQueryHandler : IRequestHandler<GetWeatherForecastQuery, IEnumerable<Model.WeatherForecast>>
+    public class GetWeatherForecastQueryHandler : IRequestHandler<GetWeatherForecastQuery, IEnumerable<ForecastPoint>>
     {
         private static readonly string[] Summaries = new[]
         {
@@ -29,14 +29,14 @@ namespace WeatherForecast.WeatherForecastFeature
             _nowProvider = nowProvider;
             _randomGenerator = randomGenerator;
         }
-        public Task<IEnumerable<Model.WeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<ForecastPoint>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
         {
             var temperatureRange = _temperatureRepository.Get(request.Location);
             Validate(temperatureRange);
 
             var startDate = _nowProvider.Now();
 
-            var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new Model.WeatherForecast
+            var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new ForecastPoint
             {
                 Date = startDate.AddDays(index),
                 TemperatureC = _randomGenerator.GetRange(temperatureRange.Low, temperatureRange.High),

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace WeatherForecast.WeatherForecastFeature
 {
-    public class GetWeatherForecastQuery : IRequest<IEnumerable<Model.WeatherForecast>>
+    public class GetWeatherForecastQuery : IRequest<IEnumerable<ForecastPoint>>
     {
         public int Days { get; }
         public string Location { get; }

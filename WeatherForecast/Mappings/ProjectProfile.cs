@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WeatherForecast.Dto;
+using WeatherForecast.Model;
 
 namespace WeatherForecast.Mappings
 {
@@ -7,7 +8,7 @@ namespace WeatherForecast.Mappings
     {
         public ProjectProfile()
         {
-           CreateMap<Model.WeatherForecast, WeatherForecastDto>();
+           CreateMap<ForecastPoint, WeatherForecastDto>();
         }
     }
 }
