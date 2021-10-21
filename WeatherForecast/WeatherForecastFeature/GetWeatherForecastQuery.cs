@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
+using WeatherForecast.Model;
 
 namespace WeatherForecast.WeatherForecastFeature
 {
