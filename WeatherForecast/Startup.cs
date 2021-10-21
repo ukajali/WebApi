@@ -1,18 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WeatherForecast.Model;
+using WeatherForecast.Contracts;
+using WeatherForecast.Providers;
 using WeatherForecast.Repositories;
 
 
@@ -31,7 +25,9 @@ namespace WeatherForecast
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<IRepository<TemperatureRange>, TemperatureRepositories>();
+            services.AddScoped<ITemperatureRepository, TemperatureRepository>();
+            services.AddScoped<INowProvider, NowProvider>();
+            services.AddScoped<IRandomGenerator, RandomGenerator>();
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>

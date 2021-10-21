@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Model;
@@ -8,7 +6,7 @@ using WeatherForecast.Repositories.DataBaseInMemory;
 
 namespace WeatherForecast.Repositories
 {
-    public class TemperatureRepositories: IRepository<TemperatureRange>
+    public class TemperatureRepository: ITemperatureRepository
     {
         public TemperatureRange Get(string location)
         {
