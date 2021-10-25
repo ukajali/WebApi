@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using WeatherForecast.Contracts;
 using WeatherForecast.Providers;
 using WeatherForecast.Repositories;
-
+using WeatherForecast.Repositories.DataBaseInMemory;
 
 namespace WeatherForecast
 {
@@ -26,6 +26,7 @@ namespace WeatherForecast
         {
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ITemperatureRepository, TemperatureRepository>();
+            services.AddScoped<IDatabaseContext, MemoryDatabaseContext>();
             services.AddScoped<INowProvider, NowProvider>();
             services.AddScoped<IRandomGenerator, RandomGenerator>();
             services.AddMediatR(typeof(Startup));
