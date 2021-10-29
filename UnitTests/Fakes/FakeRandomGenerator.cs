@@ -1,5 +1,5 @@
 ﻿using System;
-using WeatherForecast.Contracts;
+using WeatherForecast.Core.Contracts;
 
 namespace UnitTests.Fakes
 {
