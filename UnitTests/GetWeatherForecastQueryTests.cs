@@ -6,17 +6,16 @@ using FluentAssertions;
 using FluentAssertions.Extensions;
 using Moq;
 using UnitTests.Fakes;
-using WeatherForecast.Contracts;
-using WeatherForecast.Model;
-using WeatherForecast.Repositories;
-using WeatherForecast.WeatherForecastFeature;
+using WeatherForecast.Core.Contracts;
+using WeatherForecast.Core.Features.ForecastFeatures;
+using WeatherForecast.Core.Model;
 using Xunit;
 
 namespace UnitTests
 {
     public class GetWeatherForecastQueryTests
     {
-        private readonly GetWeatherForecastQueryHandler _sut;
+        private readonly GetForecastHandler _sut;
         private readonly Mock<INowProvider> _fakeNowProvider;
 
         private const string AnyLocation = "germany/bonn";
@@ -30,7 +29,7 @@ namespace UnitTests
             
             _fakeNowProvider = new Mock<INowProvider>();
 
-            _sut = new GetWeatherForecastQueryHandler(
+            _sut = new GetForecastHandler(
                 temperatureRepositoryMock.Object, 
                 _fakeNowProvider.Object, 
                 new FakeRandomGenerator(1));
@@ -42,7 +41,7 @@ namespace UnitTests
         {
             // arrange
             SetupNow(30.May(2021).At(21,13));
-            var request = new GetWeatherForecastQuery(3, AnyLocation);
+            var request = new GetForecast(3, AnyLocation);
 
             // act
             var forecast = (await _sut.Handle(request, CancellationToken.None)).ToList();
@@ -65,7 +64,7 @@ namespace UnitTests
             // arrange
             var nowDateTime = 1.December(2021).At(8,58);
             SetupNow(nowDateTime);
-            var request = new GetWeatherForecastQuery(days, AnyLocation);
+            var request = new GetForecast(days, AnyLocation);
 
             // act
             var forecasts = (await _sut.Handle(request, CancellationToken.None))
