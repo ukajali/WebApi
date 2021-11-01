@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Features.ClimateFeatures;
 
-namespace WeatherForecast.Controllers
+namespace WeatherForecast.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

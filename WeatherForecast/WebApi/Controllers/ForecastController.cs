@@ -1,13 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using WeatherForecast.Core.Features.ForecastFeatures;
 using WeatherForecast.WebApi.Responses;
 
-namespace WeatherForecast.Controllers
+namespace WeatherForecast.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
