@@ -11,14 +11,26 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
     public class GetClimatesHandler : IRequestHandler<GetClimates, IEnumerable<Climate>>
     {
         private readonly IDatabaseContext _dbContext;
+        private readonly string _location;
 
-        public GetClimatesHandler(IDatabaseContext dbContext)
+        public GetClimatesHandler(IDatabaseContext dbContext, string location = null)
         {
             _dbContext = dbContext;
+            _location = location;
         }
         public Task<IEnumerable<Climate>> Handle(GetClimates request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_dbContext.LocationClimates.AsEnumerable());
+            var climateList = new List<Climate>();
+            if(!string.IsNullOrEmpty(_location))
+            {
+                climateList.Add(_dbContext.LocationClimates.AsEnumerable().Where(n => n.Location == _location).FirstOrDefault());
+                return Task.FromResult(climateList.AsEnumerable());
+            }
+            else
+            {
+                return Task.FromResult(_dbContext.LocationClimates.AsEnumerable());
+            }
+            
         }
     }
 }

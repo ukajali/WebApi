@@ -16,7 +16,7 @@ namespace WeatherForecast.WebApi.Controllers
         private readonly IMediator _mediator;
 
         public ClimateController(
-            ILogger<ClimateController> logger, 
+            ILogger<ClimateController> logger,
             IMediator mediator)
         {
             _logger = logger;
@@ -28,7 +28,15 @@ namespace WeatherForecast.WebApi.Controllers
         {
             return Ok(await _mediator.Send(new GetClimates()));
         }
-        
+
+        [HttpGet("{country}/{city}")]
+        public async Task<IActionResult> GetLocation(string country, string city)
+        {
+            var location = $"{country}/{city}";
+            var result = await _mediator.Send(new GetClimateForLocation(location));
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(string location, int lowTemperature, int highTemperature)
         {
@@ -45,9 +53,9 @@ namespace WeatherForecast.WebApi.Controllers
             {
                 return BadRequest("lowTemperature cannot be tha same or higher than highTemperature");
             }
-
+            var splitedLocation = location.Split('/');
             var result = (await _mediator.Send(new CreateClimate(location, lowTemperature, highTemperature)));
-            return CreatedAtAction(nameof(GetData), result);
+            return CreatedAtAction(nameof(GetLocation),new {country = splitedLocation[0], city= splitedLocation[1] }, result);
         }
     }
 }
