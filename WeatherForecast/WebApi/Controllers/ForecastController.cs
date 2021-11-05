@@ -31,6 +31,7 @@ namespace WeatherForecast.WebApi.Controllers
         public async Task<IActionResult> Get(int days, string location)
         {
             _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, location);
+           
             return Ok(_mapper.Map<List<WeatherForecastResponse>>(
                 await _mediator.Send(new GetForecast(days, location))));
 

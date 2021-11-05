@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Features.ClimateFeatures;
@@ -26,15 +28,26 @@ namespace WeatherForecast.WebApi.Controllers
         {
             return Ok(await _mediator.Send(new GetClimates()));
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Post(string location, int lowTemperature, int highTemperature)
         {
             _logger.LogInformation(
                 "[POST] WeatherForecast. location:{location} lowTemperature:{lowTemperature} highTemperature:{lowTemperature}"
                 , location, lowTemperature, highTemperature);
-            return 
-                Ok (await _mediator.Send(new CreateClimate(location, lowTemperature, highTemperature)));
+
+            if(string.IsNullOrEmpty(location))
+            {
+                return BadRequest("Location value is not provided");
+            }
+
+            if(lowTemperature >= highTemperature)
+            {
+                return BadRequest("lowTemperature cannot be tha same or higher than highTemperature");
+            }
+
+            var result = (await _mediator.Send(new CreateClimate(location, lowTemperature, highTemperature)));
+            return CreatedAtAction(nameof(GetData), result);
         }
     }
 }
