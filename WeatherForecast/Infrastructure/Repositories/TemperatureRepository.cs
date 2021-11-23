@@ -13,11 +13,11 @@ namespace WeatherForecast.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public TemperatureRange Get(string location)
+        public TemperatureRange Get(Location location)
         {
             var climates =
                 from climate in _dbContext.LocationClimates
-                where climate.Location == location
+                where climate.Location.City == location.City
                 select new TemperatureRange(climate.LowTemperature, climate.HighTemperature);
             // simulate real database response delay and async processing
             Task.Delay(2, CancellationToken.None);

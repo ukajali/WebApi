@@ -8,9 +8,9 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
     public class GetForecast : IRequest<IEnumerable<ForecastPoint>>
     {
         public int Days { get; }
-        public string Location { get; }
+        public Location Location { get; }
 
-        public GetForecast(int? days, string location)
+        public GetForecast(int? days, Location location)
         {
             Days = ValidateDays(days);
             Location = ValidateLocation(location);
@@ -24,9 +24,9 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
                 throw new ArgumentException("Expected value between 1..14", nameof(days));
             else return days.Value;
         }
-        private static string ValidateLocation(string location)
+        private static Location ValidateLocation(Location location)
         {
-            if (string.IsNullOrWhiteSpace(location))
+            if (string.IsNullOrWhiteSpace(location.GetFullLocation()))
                 throw new ArgumentNullException(nameof(location));
             else return location;
         }

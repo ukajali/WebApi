@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Features.ForecastFeatures;
+using WeatherForecast.Core.Model;
 using WeatherForecast.WebApi.Responses;
 
 namespace WeatherForecast.WebApi.Controllers
@@ -28,13 +29,12 @@ namespace WeatherForecast.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int days, string location)
+        public async Task<IActionResult> Get(int days, string country, string city)
         {
-            _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, location);
+            _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, new Location(country, city));
            
             return Ok(_mapper.Map<List<WeatherForecastResponse>>(
-                await _mediator.Send(new GetForecast(days, location))));
-
+                await _mediator.Send(new GetForecast(days, new Location(country, city)))));
         }
     }
 }

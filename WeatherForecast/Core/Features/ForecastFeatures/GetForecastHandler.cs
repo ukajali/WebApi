@@ -30,7 +30,7 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
         }
         public Task<IEnumerable<ForecastPoint>> Handle(GetForecast request, CancellationToken cancellationToken)
         {
-            var location = System.Web.HttpUtility.UrlDecode(request.Location);
+            var location = request.Location;
             var temperatureRange = _temperatureRepository.Get(location);
             Validate(temperatureRange);
 

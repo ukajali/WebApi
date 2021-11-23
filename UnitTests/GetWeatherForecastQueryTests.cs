@@ -17,8 +17,7 @@ namespace UnitTests
     {
         private readonly GetForecastHandler _sut;
         private readonly Mock<INowProvider> _fakeNowProvider;
-
-        private const string AnyLocation = "germany/bonn";
+        private Location AnyLocation = new Location("germany", "bonn");
 
         public GetWeatherForecastQueryTests()
         {
@@ -34,8 +33,7 @@ namespace UnitTests
                 _fakeNowProvider.Object, 
                 new FakeRandomGenerator(1));
         }
-        
-        
+          
         [Fact]
         public async Task Generate3DaysForecast()
         {

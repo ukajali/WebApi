@@ -11,9 +11,9 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
     public class GetClimatesHandler : IRequestHandler<GetClimates, IEnumerable<Climate>>
     {
         private readonly IDatabaseContext _dbContext;
-        private readonly string _location;
+        private readonly Location _location;
 
-        public GetClimatesHandler(IDatabaseContext dbContext, string location = null)
+        public GetClimatesHandler(IDatabaseContext dbContext, Location location = null)
         {
             _dbContext = dbContext;
             _location = location;
@@ -21,7 +21,7 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
         public Task<IEnumerable<Climate>> Handle(GetClimates request, CancellationToken cancellationToken)
         {
             var climateList = new List<Climate>();
-            if(!string.IsNullOrEmpty(_location))
+            if(_location != null)
             {
                 climateList.Add(_dbContext.LocationClimates.AsEnumerable().Where(n => n.Location == _location).FirstOrDefault());
                 return Task.FromResult(climateList.AsEnumerable());

@@ -22,15 +22,15 @@ namespace WeatherForecast.WebApi
         {
             var locationsBilder = new StringBuilder();
             locationsBilder.Append("<ul>");
-            foreach (var loc in locations)
+            foreach (var clim in locations)
             {
                 locationsBilder.Append("<li>");
-                locationsBilder.Append(loc.Location);
+                locationsBilder.Append(clim.Location.GetFullLocation());
                 locationsBilder.Append("</li>");
             }
             locationsBilder.Append("</ul>");
+           
             return locationsBilder.ToString();
-
         }
         private static string GenerateWelcomePageHtml(List<Climate> locationsList)
         {
@@ -68,7 +68,7 @@ namespace WeatherForecast.WebApi
                                     <a href='/swagger' class='btn btn-outline-light' role='button'>Open Swagger UI</a>
                                     <h2 class='mt-4'>Sample forecasts</h2>
                                     <ul>
-                                        <li><a href='/forecast?location=poland%2Fkrakow&days=14' class='link-light'>Poland: Kraków - 14 days (format: JSON)</a></li>
+                                        <li><a href='/Forecast?days=14&country=poland&city=krakow' class='link-light'>Poland: Kraków - 14 days (format: JSON)</a></li>
                                     </ul>
                                 </div>
                             </div>

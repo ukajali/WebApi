@@ -6,20 +6,20 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
 {
     public class CreateClimate : IRequest<Climate>
     {
-        public string Location { get; set; }
+        public Location Location { get; set; }
         public int LowTemperature { get; set; }
         public int HighTemperature { get; set; }
 
-        public CreateClimate(string location, int lowTemperature, int highTemperature )
+        public CreateClimate(Location location, int lowTemperature, int highTemperature )
         {
             Location = ValidateLocation(location);
             LowTemperature = lowTemperature;
             HighTemperature = highTemperature;
         }
 
-        private static string ValidateLocation(string location)
+        private static Location ValidateLocation(Location location)
         {
-            if (string.IsNullOrWhiteSpace(location))
+            if (location == null)
                 throw new ArgumentNullException(nameof(location));
             return location;
         }

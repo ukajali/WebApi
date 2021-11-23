@@ -4,6 +4,6 @@ namespace WeatherForecast.Core.Contracts
 {
     public interface ITemperatureRepository
     {
-        TemperatureRange Get(string str);
+        TemperatureRange Get(Location str);
     }
 }

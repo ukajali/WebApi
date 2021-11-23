@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,8 +19,13 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
 
         public Task<Climate> Handle(GetClimateForLocation request, CancellationToken cancellationToken)
         {
-            var loc = _dbContext.LocationClimates.Where(n => n.Location == request.Location).FirstOrDefault();
-           return Task.FromResult(loc);
+            var loc = _dbContext.LocationClimates.Where(n => n.Location.City == request.Location.City).FirstOrDefault();
+            return Task.FromResult(loc);
+        }
+
+        private Task<Climate> BadRequest(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

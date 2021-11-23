@@ -9,8 +9,8 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
 {
     public class GetClimateForLocation : IRequest<Climate>
     {
-        public string Location { get; set; }
-        public GetClimateForLocation(string location)
+        public Location Location { get; set; }
+        public GetClimateForLocation(Location location)
         {
             Location = location;
         }
