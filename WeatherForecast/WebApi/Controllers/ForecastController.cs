@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,10 +32,23 @@ namespace WeatherForecast.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int days, string country, string city)
         {
-            _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, new Location(country, city));
-           
+            var newLocation = new Location(country, city);
+
+            _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, newLocation);
+
+            var daysValidator = (IValidator<int>)HttpContext.RequestServices.GetService(typeof(IValidator<int>));
+            var daysValidatorResult = daysValidator.Validate(days);
+            if (!daysValidatorResult.IsValid)
+                return BadRequest($"Location value is not provided: {string.Join(",", daysValidatorResult.Errors)}");
+
+            
+            var locationValidator = (IValidator<Location>)HttpContext.RequestServices.GetService(typeof(IValidator<Location>));
+            var locValidationResult = locationValidator.Validate(newLocation);
+            if (!locValidationResult.IsValid)
+                return BadRequest($"Location value is not provided: {string.Join(",", locValidationResult.Errors)}");
+
             return Ok(_mapper.Map<List<WeatherForecastResponse>>(
-                await _mediator.Send(new GetForecast(days, new Location(country, city)))));
+                await _mediator.Send(new GetForecast(days, newLocation))));
         }
     }
 }

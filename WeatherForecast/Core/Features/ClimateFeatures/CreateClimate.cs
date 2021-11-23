@@ -12,16 +12,9 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
 
         public CreateClimate(Location location, int lowTemperature, int highTemperature )
         {
-            Location = ValidateLocation(location);
+            Location = location;
             LowTemperature = lowTemperature;
             HighTemperature = highTemperature;
-        }
-
-        private static Location ValidateLocation(Location location)
-        {
-            if (location == null)
-                throw new ArgumentNullException(nameof(location));
-            return location;
         }
     }
 }
