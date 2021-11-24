@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Core.Features.ForecastFeatures
 {
@@ -30,6 +31,12 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
         }
         public Task<IEnumerable<ForecastPoint>> Handle(GetForecast request, CancellationToken cancellationToken)
         {
+            // TODO: use FluentValidation for the request (GetForecast) with Throw Exception  
+            /*
+            inject: IValidator<GetForecast> _validator
+            _validator.ValidateAndThrow(request);
+            */
+
             var location = request.Location;
             var temperatureRange = _temperatureRepository.Get(location);
             Validate(temperatureRange);

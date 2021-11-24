@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Infrastructure.Repositories
 {

@@ -9,6 +9,7 @@ using UnitTests.Fakes;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Features.ForecastFeatures;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 using Xunit;
 
 namespace UnitTests

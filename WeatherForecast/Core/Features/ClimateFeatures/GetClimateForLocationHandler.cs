@@ -22,10 +22,5 @@ namespace WeatherForecast.Core.Features.ClimateFeatures
             var loc = _dbContext.LocationClimates.Where(n => n.Location.City == request.Location.City).FirstOrDefault();
             return Task.FromResult(loc);
         }
-
-        private Task<Climate> BadRequest(string v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

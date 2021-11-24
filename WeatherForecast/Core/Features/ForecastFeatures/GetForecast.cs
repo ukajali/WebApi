@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Core.Features.ForecastFeatures
 {

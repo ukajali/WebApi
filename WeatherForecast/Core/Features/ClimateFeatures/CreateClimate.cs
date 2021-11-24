@@ -1,6 +1,7 @@
 ﻿using System;
 using MediatR;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Core.Features.ClimateFeatures
 {

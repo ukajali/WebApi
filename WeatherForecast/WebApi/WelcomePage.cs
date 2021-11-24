@@ -25,7 +25,7 @@ namespace WeatherForecast.WebApi
             foreach (var clim in locations)
             {
                 locationsBilder.Append("<li>");
-                locationsBilder.Append(clim.Location.GetFullLocation());
+                locationsBilder.Append(clim.Location);
                 locationsBilder.Append("</li>");
             }
             locationsBilder.Append("</ul>");

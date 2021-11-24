@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 using WeatherForecast.Core.Validators;
 using WeatherForecast.Infrastructure.Providers;
 using WeatherForecast.Infrastructure.Repositories;

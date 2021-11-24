@@ -1,4 +1,6 @@
-﻿namespace WeatherForecast.Core.Model
+﻿using WeatherForecast.Core.Model.ValueObjects;
+
+namespace WeatherForecast.Core.Model
 {
     public class Climate
     {

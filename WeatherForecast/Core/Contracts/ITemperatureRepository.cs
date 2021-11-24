@@ -1,4 +1,5 @@
 ﻿using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Core.Contracts
 {
