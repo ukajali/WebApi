@@ -22,8 +22,7 @@ namespace WeatherForecast.Infrastructure.Repositories.DataBaseInMemory
             });
 
         private static class DatabaseInMemory
-        {
-            
+        {            
             internal static readonly IReadOnlyList<Climate> LocationClimates = new List<Climate>
             {
                 new() { Location = (new Location("poland", "krakow")), LowTemperature = -15, HighTemperature = 38 },

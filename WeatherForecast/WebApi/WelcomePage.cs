@@ -68,7 +68,7 @@ namespace WeatherForecast.WebApi
                                     <a href='/swagger' class='btn btn-outline-light' role='button'>Open Swagger UI</a>
                                     <h2 class='mt-4'>Sample forecasts</h2>
                                     <ul>
-                                        <li><a href='/Forecast?days=14&country=poland&city=krakow' class='link-light'>Poland: Kraków - 14 days (format: JSON)</a></li>
+                                        <li><a href='/Forecast?location=poland%2Fkrakow&days=14' class='link-light'>Poland: Kraków - 14 days (format: JSON)</a></li>
                                     </ul>
                                 </div>
                             </div>

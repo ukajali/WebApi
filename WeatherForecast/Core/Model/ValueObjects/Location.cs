@@ -12,30 +12,33 @@
             Country = country;
             City = city;
         }
-        
+
         public Location(string location)
         {
-            // TODO: splitting location to country and city
-            Country = location;
-            City = "";
+            var splitedLocation = location.SmartStringLocationSplit();
+            Country = splitedLocation.Item1;
+            City = splitedLocation.Item2;
         }
-        
-        // TODO: implement overloads: Equals, GetHashCode
-        /*
-        public override bool Equals(object? obj)
+
+        public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj == null || obj.GetType() != this.GetType())
+                return false;      
+            
+            if(obj is Location loc)
+                return City.Equals(loc.City) && Country.Equals(loc.Country);
+            
+            return false;         
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return System.HashCode.Combine(Country, City);
         }
-        */
 
         public override string ToString()
         {
             return Country + Delimiter + City;
-        }
+        }    
     }
 }

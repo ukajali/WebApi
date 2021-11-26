@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using WeatherForecast.Core.Contracts;
+using WeatherForecast.Core.Features.ForecastFeatures;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
 using WeatherForecast.Core.Validators;
@@ -20,7 +21,8 @@ namespace WeatherForecast.Infrastructure
             services.AddScoped<IRandomGenerator, RandomGenerator>();
             services.AddScoped<IValidator<Location>, LocationValidator>();
             services.AddScoped<IValidator<Climate>, ClimateValidator>();
-            services.AddScoped<IValidator<int>, DaysValidator>();
+            services.AddScoped<IValidator<ClimateRequest>, ClimateRequestValidator>();
+            services.AddScoped<IValidator<GetForecast>, GetForecastValidator>();
         }
     }
 }
