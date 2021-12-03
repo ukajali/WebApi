@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
@@ -8,8 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Features.ForecastFeatures;
-using WeatherForecast.Core.Model;
-using WeatherForecast.Core.Model.ValueObjects;
 using WeatherForecast.WebApi.Responses;
 
 namespace WeatherForecast.WebApi.Controllers

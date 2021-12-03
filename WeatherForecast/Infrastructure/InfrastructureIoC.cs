@@ -8,6 +8,7 @@ using WeatherForecast.Core.Validators;
 using WeatherForecast.Infrastructure.Providers;
 using WeatherForecast.Infrastructure.Repositories;
 using WeatherForecast.Infrastructure.Repositories.DataBaseInMemory;
+using WeatherForecast.VerticalSlices;
 
 namespace WeatherForecast.Infrastructure
 {

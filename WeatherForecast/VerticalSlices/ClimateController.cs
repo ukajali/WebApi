@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
-using System.Linq;
-using FluentValidation.Results;
-using WeatherForecast.Core.Contracts;
 
-namespace WeatherForecast.WebApi.Controllers
+namespace WeatherForecast.VerticalSlices
 {
     [ApiController]
     [Route("[controller]")]
@@ -53,7 +53,7 @@ namespace WeatherForecast.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ClimateRequest climateRequest)
+        public async Task<IActionResult> CreateLocation([FromBody] ClimateRequest climateRequest)
         {
             _logger.LogInformation(
                 "[POST] WeatherForecast. location:{Location} lowTemperature:{LowTemperature} highTemperature:{HighTemperature}"

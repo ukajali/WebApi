@@ -1,11 +1,7 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WeatherForecast.Core.Model;
 
-namespace WeatherForecast.Core.Validators
+namespace WeatherForecast.VerticalSlices
 {
     public class ClimateRequestValidator : AbstractValidator<ClimateRequest>
     {
