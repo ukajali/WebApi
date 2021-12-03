@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,24 +17,30 @@ namespace WeatherForecast.WebApi.Controllers
         private readonly ILogger<ForecastController> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IValidator<GetForecast> _getForecastValidator;
 
         public ForecastController(
             ILogger<ForecastController> logger, 
             IMediator mediator, 
-            IMapper mapper)
+            IMapper mapper,
+            IValidator<GetForecast> getForecastValidator)
         {
             _logger = logger;
             _mediator = mediator;
             _mapper = mapper;
+            _getForecastValidator = getForecastValidator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int days, string location)
+        public async Task<IActionResult> Get(string location, int days)
         {
-            _logger.LogInformation("[GET] WeatherForecast. days:{days} location:{location}", days, location);
-            return Ok(_mapper.Map<List<WeatherForecastResponse>>(
-                await _mediator.Send(new GetForecast(days, location))));
+            _logger.LogInformation("[GET] WeatherForecast. days:{Days} location:{Location}", days, location);
 
+            var getForecast = new GetForecast(location,days);
+
+            var response = await _mediator.Send(getForecast);
+
+            return Ok(_mapper.Map<List<WeatherForecastResponse>>(response));
         }
     }
 }
