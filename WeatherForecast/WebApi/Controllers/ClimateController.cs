@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WeatherForecast.Core.Features.ClimateFeatures;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
 using System.Linq;
 using FluentValidation.Results;
+using WeatherForecast.Core.Contracts;
 
 namespace WeatherForecast.WebApi.Controllers
 {
@@ -16,17 +15,18 @@ namespace WeatherForecast.WebApi.Controllers
     public class ClimateController : ControllerBase
     {
         private readonly ILogger<ClimateController> _logger;
-        private readonly IMediator _mediator;
+        private readonly IDatabaseContext _dbContext;
         private readonly IValidator<Location> _locationValidator;
         private readonly IValidator<ClimateRequest> _climateRequestValidator;
+        
         public ClimateController(
             ILogger<ClimateController> logger,
-            IMediator mediator,
+            IDatabaseContext dbContext,
             IValidator<Location> locationValidator,
             IValidator<ClimateRequest> climateRequestValidator)
         {
             _logger = logger;
-            _mediator = mediator;
+            _dbContext = dbContext;
             _locationValidator = locationValidator;
             _climateRequestValidator = climateRequestValidator;
         }
@@ -34,7 +34,9 @@ namespace WeatherForecast.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetData()
         {
-            return Ok(await _mediator.Send(new GetClimates()));
+            var locations = _dbContext.LocationClimates.AsEnumerable();
+            await Task.Delay(1);
+            return Ok(locations);
         }
 
         [HttpGet("{country}/{city}")]
@@ -45,7 +47,8 @@ namespace WeatherForecast.WebApi.Controllers
             if (!validationResult.IsValid)
                 return BadRequest_FromValidation(validationResult);
 
-            var result = await _mediator.Send(new GetClimateForLocation(newLocation));           
+            var result = _dbContext.LocationClimates
+                .FirstOrDefault(x => x.Location.Country == country && x.Location.City == city);
             return Ok(result);
         }
 
@@ -61,11 +64,14 @@ namespace WeatherForecast.WebApi.Controllers
                 return BadRequest_FromValidation(validationResult);
 
             var location = new Location(climateRequest.Location);
-            var createClimate = new CreateClimate(location,
-                climateRequest.LowTemperature, climateRequest.HighTemperature);
-
-            var result = await _mediator.Send(createClimate);
-            return CreatedAtAction(nameof(GetLocation),new {country = location.Country, city = location.City }, result);
+            var climate = new Climate { 
+                Location = location, 
+                LowTemperature = climateRequest.LowTemperature, 
+                HighTemperature = climateRequest.HighTemperature
+            };
+            _dbContext.AddClimate(climate);
+            
+            return CreatedAtAction(nameof(GetLocation),new {country = location.Country, city = location.City }, climate);
         }
         
         private IActionResult BadRequest_FromValidation(ValidationResult validationResult)
