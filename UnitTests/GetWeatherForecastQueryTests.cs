@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Extensions;
+using FluentValidation;
 using Moq;
 using UnitTests.Fakes;
 using WeatherForecast.Core.Contracts;
@@ -32,7 +33,8 @@ namespace UnitTests
             _sut = new GetForecastHandler(
                 temperatureRepositoryMock.Object, 
                 _fakeNowProvider.Object, 
-                new FakeRandomGenerator(1));
+                new FakeRandomGenerator(1),
+                Mock.Of<IValidator<GetForecast>>());
         }
           
         [Fact]
@@ -40,7 +42,7 @@ namespace UnitTests
         {
             // arrange
             SetupNow(30.May(2021).At(21,13));
-            var request = new GetForecast(3, AnyLocation);
+            var request = new GetForecast(AnyLocation.ToString(), 3);
 
             // act
             var forecast = (await _sut.Handle(request, CancellationToken.None)).ToList();
@@ -63,7 +65,7 @@ namespace UnitTests
             // arrange
             var nowDateTime = 1.December(2021).At(8,58);
             SetupNow(nowDateTime);
-            var request = new GetForecast(days, AnyLocation);
+            var request = new GetForecast(AnyLocation.ToString(), days);
 
             // act
             var forecasts = (await _sut.Handle(request, CancellationToken.None))

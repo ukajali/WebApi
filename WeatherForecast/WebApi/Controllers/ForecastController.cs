@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -39,15 +40,11 @@ namespace WeatherForecast.WebApi.Controllers
         {
             _logger.LogInformation("[GET] WeatherForecast. days:{Days} location:{Location}", days, location);
 
-            var getLocation = new Location(location);
-            var getForecastRequest = new GetForecast(days, getLocation);
+            var getForecast = new GetForecast(location,days);
 
-            var validationResult = _getForecastValidator.Validate(getForecastRequest);
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage).ToArray());
+            var response = await _mediator.Send(getForecast);
 
-            return Ok(_mapper.Map<List<WeatherForecastResponse>>(
-                await _mediator.Send(getForecastRequest)));
+            return Ok(_mapper.Map<List<WeatherForecastResponse>>(response));
         }
     }
 }

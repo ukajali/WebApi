@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MediatR;
 using WeatherForecast.Core.Model;
-using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.Core.Features.ForecastFeatures
 {
     public class GetForecast : IRequest<IEnumerable<ForecastPoint>>
     {
+        public string Location { get; }
         public int Days { get; }
-        public Location Location { get; }
 
-        public GetForecast(int? days, Location location)
+        public GetForecast(string location, int? days)
         {
-            Days = days.Value;
+            Days = days.GetValueOrDefault();
             Location = location;
         }
     }
