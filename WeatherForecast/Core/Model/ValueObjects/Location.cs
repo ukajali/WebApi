@@ -1,4 +1,6 @@
-﻿namespace WeatherForecast.Core.Model.ValueObjects
+﻿using System;
+
+namespace WeatherForecast.Core.Model.ValueObjects
 {
     public class Location
     {
@@ -15,30 +17,33 @@
 
         public Location(string location)
         {
-            var splitedLocation = location.SmartStringLocationSplit();
-            Country = splitedLocation.Item1;
-            City = splitedLocation.Item2;
+            if (string.IsNullOrEmpty(location))
+                throw new ArgumentException("Invalid empty location", nameof(location));
+            var split = location.Split(Delimiter);
+            if (split.Length != 2)
+                throw new ArgumentException($"Location requires format: 'country{Delimiter}city'", nameof(location));
+            Country = split[0];
+            City = split[1];
+        }
+
+        private bool Equals(Location other)
+        {
+            return Country == other.Country && City == other.City;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != this.GetType())
-                return false;      
-            
-            if(obj is Location loc)
-                return City.Equals(loc.City) && Country.Equals(loc.Country);
-            
-            return false;         
+            return obj is not null && obj == this && obj is Location loc && Equals(loc);
         }
 
         public override int GetHashCode()
         {
-            return System.HashCode.Combine(Country, City);
+            return HashCode.Combine(Country, City);
         }
 
         public override string ToString()
         {
-            return Country + Delimiter + City;
+            return $"{Country}{Delimiter}{City}";
         }    
     }
 }

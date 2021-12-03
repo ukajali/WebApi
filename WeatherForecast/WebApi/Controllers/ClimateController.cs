@@ -7,6 +7,7 @@ using WeatherForecast.Core.Features.ClimateFeatures;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
 using System.Linq;
+using FluentValidation.Results;
 
 namespace WeatherForecast.WebApi.Controllers
 {
@@ -40,9 +41,9 @@ namespace WeatherForecast.WebApi.Controllers
         public async Task<IActionResult> GetLocation(string country,  string city)
         {
             var newLocation = new Location(country, city);
-            var validationResult = _locationValidator.Validate(newLocation);
+            var validationResult = await _locationValidator.ValidateAsync(newLocation);
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(x=>x.ErrorMessage).ToArray());
+                return BadRequest_FromValidation(validationResult);
 
             var result = await _mediator.Send(new GetClimateForLocation(newLocation));           
             return Ok(result);
@@ -55,9 +56,9 @@ namespace WeatherForecast.WebApi.Controllers
                 "[POST] WeatherForecast. location:{Location} lowTemperature:{LowTemperature} highTemperature:{HighTemperature}"
                 , climateRequest.Location, climateRequest.LowTemperature, climateRequest.HighTemperature);
 
-            var validationResult = _climateRequestValidator.Validate(climateRequest);
+            var validationResult = await _climateRequestValidator.ValidateAsync(climateRequest);
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage).ToArray());
+                return BadRequest_FromValidation(validationResult);
 
             var location = new Location(climateRequest.Location);
             var createClimate = new CreateClimate(location,
@@ -66,5 +67,12 @@ namespace WeatherForecast.WebApi.Controllers
             var result = await _mediator.Send(createClimate);
             return CreatedAtAction(nameof(GetLocation),new {country = location.Country, city = location.City }, result);
         }
+        
+        private IActionResult BadRequest_FromValidation(ValidationResult validationResult)
+        {
+            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToArray();
+            return BadRequest(errors);
+        }
+
     }
 }
