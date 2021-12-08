@@ -17,4 +17,16 @@ namespace WeatherForecast.VerticalSlices.ExeptionHandling
         {
         }
     }
+    public class ClimateException : SystemException
+    {
+        public ClimateException(string message) : base(message)
+        {
+        }
+    }
+    public class ClimateErrorException : ClimateException
+    {
+        public ClimateErrorException(string message) : base(message)
+        {
+        }
+    }
 }

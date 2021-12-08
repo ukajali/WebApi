@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
+using WeatherForecast.VerticalSlices.ExeptionHandling;
 using WeatherForecast.WebApi.ExeptionHandling;
 
 namespace WeatherForecast.VerticalSlices
@@ -17,22 +18,19 @@ namespace WeatherForecast.VerticalSlices
     {
         private readonly ILogger<ClimateController> _logger;
         private readonly IDatabaseContext _dbContext;
-        private readonly IValidator<Location> _locationValidator;
-        private readonly IValidator<ClimateRequest> _climateRequestValidator;
         private readonly IWeatherForecastGetLocationService _weatherForecastGetLocationService;
+        private readonly IWeatherForecastCreateLocationService _weatherForecastCreateLocationService;
 
         public ClimateController(
             ILogger<ClimateController> logger,
             IDatabaseContext dbContext,
-            IValidator<Location> locationValidator,
-            IValidator<ClimateRequest> climateRequestValidator,
-            IWeatherForecastGetLocationService weatherForecastGetLocationService)
+            IWeatherForecastGetLocationService weatherForecastGetLocationService,
+            IWeatherForecastCreateLocationService weatherForecastCreateLocationService)
         {
             _logger = logger;
             _dbContext = dbContext;
-            _locationValidator = locationValidator;
-            _climateRequestValidator = climateRequestValidator;
             _weatherForecastGetLocationService = weatherForecastGetLocationService;
+            _weatherForecastCreateLocationService = weatherForecastCreateLocationService;
         }
 
         [HttpGet]
@@ -57,26 +55,9 @@ namespace WeatherForecast.VerticalSlices
                 "[POST] WeatherForecast. location:{Location} lowTemperature:{LowTemperature} highTemperature:{HighTemperature}"
                 , climateRequest.Location, climateRequest.LowTemperature, climateRequest.HighTemperature);
 
-            var validationResult = await _climateRequestValidator.ValidateAsync(climateRequest);
-            if (!validationResult.IsValid)
-                return BadRequest_FromValidation(validationResult);
-
-            var location = new Location(climateRequest.Location);
-            var climate = new Climate { 
-                Location = location, 
-                LowTemperature = climateRequest.LowTemperature, 
-                HighTemperature = climateRequest.HighTemperature
-            };
-            _dbContext.AddClimate(climate);
-            
-            return CreatedAtAction(nameof(GetLocation),new {country = location.Country, city = location.City }, climate);
+            var result = await _weatherForecastCreateLocationService.PostLocation(climateRequest);
+            var location = result.Location;
+            return CreatedAtAction(nameof(GetLocation), new { country = location.Country, city = location.City }, result);
         }
-        
-        private IActionResult BadRequest_FromValidation(ValidationResult validationResult)
-        {
-            var errors = validationResult.Errors.Select(x => x.ErrorMessage).ToArray();
-            return BadRequest(errors);
-        }
-
     }
 }

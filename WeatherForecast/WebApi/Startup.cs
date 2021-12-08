@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WeatherForecast.Infrastructure;
+using WeatherForecast.VerticalSlices.ExeptionHandling;
 using WeatherForecast.WebApi.ExeptionHandling;
 
 namespace WeatherForecast.WebApi
@@ -24,6 +25,7 @@ namespace WeatherForecast.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IWeatherForecastCreateLocationService, WeatherForecastCreateLocationService>();
             services.AddTransient<IWeatherForecastGetLocationService, WeatherForecastGetLocationService>();
             services.AddTransient<ExeptionHandlingMiddleware>();
             services.AddAutoMapper(typeof(Startup));
