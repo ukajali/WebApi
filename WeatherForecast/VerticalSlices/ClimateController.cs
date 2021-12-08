@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
+using WeatherForecast.WebApi.ExeptionHandling;
 
 namespace WeatherForecast.VerticalSlices
 {
@@ -18,17 +19,20 @@ namespace WeatherForecast.VerticalSlices
         private readonly IDatabaseContext _dbContext;
         private readonly IValidator<Location> _locationValidator;
         private readonly IValidator<ClimateRequest> _climateRequestValidator;
-        
+        private readonly IWeatherForecastGetLocationService _weatherForecastGetLocationService;
+
         public ClimateController(
             ILogger<ClimateController> logger,
             IDatabaseContext dbContext,
             IValidator<Location> locationValidator,
-            IValidator<ClimateRequest> climateRequestValidator)
+            IValidator<ClimateRequest> climateRequestValidator,
+            IWeatherForecastGetLocationService weatherForecastGetLocationService)
         {
             _logger = logger;
             _dbContext = dbContext;
             _locationValidator = locationValidator;
             _climateRequestValidator = climateRequestValidator;
+            _weatherForecastGetLocationService = weatherForecastGetLocationService;
         }
 
         [HttpGet]
@@ -42,13 +46,7 @@ namespace WeatherForecast.VerticalSlices
         [HttpGet("{country}/{city}")]
         public async Task<IActionResult> GetLocation(string country,  string city)
         {
-            var newLocation = new Location(country, city);
-            var validationResult = await _locationValidator.ValidateAsync(newLocation);
-            if (!validationResult.IsValid)
-                return BadRequest_FromValidation(validationResult);
-
-            var result = _dbContext.LocationClimates
-                .FirstOrDefault(x => x.Location.Country == country && x.Location.City == city);
+            var result = await _weatherForecastGetLocationService.Get(country, city);
             return Ok(result);
         }
 

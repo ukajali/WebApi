@@ -15,11 +15,11 @@ namespace WeatherForecast.Core.Validators
 		public LocationValidator(IDatabaseContext databaseContext)
 		{
 			_databaseContext = databaseContext;
-			var currecntLocations = _databaseContext.LocationClimates.Select(x=>x.Location).ToList();
+            var currecntLocations = _databaseContext.LocationClimates.Select(x => x.Location.ToString()).ToList();
 
-			RuleFor(x => x.City).NotEmpty().WithMessage("City is empty");
+            RuleFor(x => x.City).NotEmpty().WithMessage("City is empty");
 			RuleFor(x => x.Country).NotEmpty().WithMessage("Country is empty");
-			RuleFor(x => x).Must(location => currecntLocations.Equals(location)).WithMessage("This location doesn't exist in the system");
+			RuleFor(x => x.ToString()).Must(x => currecntLocations.Contains(x.ToString())).WithMessage("This location doesn't exist in the system");
 		}
 	}
 }
