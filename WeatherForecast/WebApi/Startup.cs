@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -7,8 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WeatherForecast.Core.Model.ValueObjects;
+using WeatherForecast.Core.Validators;
 using WeatherForecast.Infrastructure;
-using WeatherForecast.VerticalSlices.ExceptionHandling;
+using WeatherForecast.VerticalSlices;
 
 namespace WeatherForecast.WebApi
 {
@@ -24,8 +27,6 @@ namespace WeatherForecast.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IWeatherForecastCreateLocationService, WeatherForecastCreateLocationService>();
-            services.AddTransient<IWeatherForecastGetLocationService, WeatherForecastGetLocationService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
@@ -35,6 +36,11 @@ namespace WeatherForecast.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherForecast", Version = "v1" });
             });
             services.AddInfrastructureWeatherForecastServices();
+            // WebAPI services:
+            services.AddTransient<ExceptionHandlingMiddleware>();
+            // Vertical Slice Services:
+            services.AddScoped<IValidator<ClimateRequest>, ClimateRequestValidator>();
+            services.AddScoped<IValidator<Location>, LocationValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

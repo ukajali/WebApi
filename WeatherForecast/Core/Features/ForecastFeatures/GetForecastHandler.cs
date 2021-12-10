@@ -39,8 +39,6 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
             var location = new Location(request.Location);
 
             var temperatureRange = _temperatureRepository.Get(location);
-            Validate(temperatureRange);
-
             var startDate = _nowProvider.Now();
 
             var weatherForecast =  Enumerable.Range(1, request.Days).Select(index => new ForecastPoint
@@ -52,10 +50,5 @@ namespace WeatherForecast.Core.Features.ForecastFeatures
 
             return Task.FromResult(weatherForecast);
         }
-        private void Validate(TemperatureRange temperatureRange)
-        {
-            if (temperatureRange == null)
-                throw new ArgumentException("not found temperature range for specific location");
-        }      
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Contracts;
-using WeatherForecast.VerticalSlices.ExceptionHandling;
+using WeatherForecast.Core.Model;
+using WeatherForecast.Core.Model.ValueObjects;
 
 namespace WeatherForecast.VerticalSlices
 {
@@ -13,19 +15,19 @@ namespace WeatherForecast.VerticalSlices
     {
         private readonly ILogger<ClimateController> _logger;
         private readonly IDatabaseContext _dbContext;
-        private readonly IWeatherForecastGetLocationService _weatherForecastGetLocationService;
-        private readonly IWeatherForecastCreateLocationService _weatherForecastCreateLocationService;
+        private readonly IValidator<Location> _locationValidator;
+        private readonly IValidator<ClimateRequest> _climateRequestValidator;
 
         public ClimateController(
             ILogger<ClimateController> logger,
             IDatabaseContext dbContext,
-            IWeatherForecastGetLocationService weatherForecastGetLocationService,
-            IWeatherForecastCreateLocationService weatherForecastCreateLocationService)
+            IValidator<Location> locationValidator,
+            IValidator<ClimateRequest> climateRequestValidator)
         {
             _logger = logger;
             _dbContext = dbContext;
-            _weatherForecastGetLocationService = weatherForecastGetLocationService;
-            _weatherForecastCreateLocationService = weatherForecastCreateLocationService;
+            _locationValidator = locationValidator;
+            _climateRequestValidator = climateRequestValidator;
         }
 
         [HttpGet]
@@ -39,20 +41,37 @@ namespace WeatherForecast.VerticalSlices
         [HttpGet("{country}/{city}")]
         public async Task<IActionResult> GetLocation(string country,  string city)
         {
-            var result = await _weatherForecastGetLocationService.Get(country, city);
-            return Ok(result);
+            _logger.LogInformation("[GET] Climate {Country}/{City}", country, city);
+            
+            var newLocation = new Location(country, city);
+            await _locationValidator.ValidateAndThrowAsync(newLocation);
+            var locationClimate = _dbContext.LocationClimates
+                .FirstOrDefault(x => x.Location.City == city && x.Location.Country == country);
+
+            return Ok(locationClimate);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateLocation([FromBody] ClimateRequest climateRequest)
         {
             _logger.LogInformation(
-                "[POST] WeatherForecast. location:{Location} lowTemperature:{LowTemperature} highTemperature:{HighTemperature}"
+                "[POST] Climate. location:{Location} lowTemperature:{LowTemperature} highTemperature:{HighTemperature}"
                 , climateRequest.Location, climateRequest.LowTemperature, climateRequest.HighTemperature);
 
-            var result = await _weatherForecastCreateLocationService.PostLocation(climateRequest);
-            var location = result.Location;
-            return CreatedAtAction(nameof(GetLocation), new { country = location.Country, city = location.City }, result);
+            await _climateRequestValidator.ValidateAndThrowAsync(climateRequest);
+            var location = new Location(climateRequest.Location);
+            var climate = new Climate
+            {
+                Location = location,
+                LowTemperature = climateRequest.LowTemperature,
+                HighTemperature = climateRequest.HighTemperature
+            };
+            _dbContext.AddClimate(climate);
+
+            return CreatedAtAction(
+                nameof(GetLocation), 
+                new { country = climate.Location.Country, city = climate.Location.City }, 
+                location);
         }
     }
 }

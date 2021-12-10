@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WeatherForecast.VerticalSlices.ExceptionHandling;
+using FluentValidation;
 
 namespace WeatherForecast.WebApi
 {
@@ -15,29 +15,13 @@ namespace WeatherForecast.WebApi
             {
                 await next(context);
             }
-            catch (Exception er)
+            catch (ValidationException exception)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
-                switch (er)
-                {
-                    case LocationException e:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-
-                    case ClimateErrorException e:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
-
-                var result = JsonSerializer.Serialize(new { message = er?.Message });
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                var errorList = exception.Errors.Select(x => x.ErrorMessage).ToArray();
+                var result = JsonSerializer.Serialize(new { errors = errorList });
                 await response.WriteAsync(result);
             }
         }
