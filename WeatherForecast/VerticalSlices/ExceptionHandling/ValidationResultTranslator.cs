@@ -1,10 +1,7 @@
-﻿using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using FluentValidation.Results;
 
-namespace WeatherForecast.VerticalSlices.ExeptionHandling
+namespace WeatherForecast.VerticalSlices.ExceptionHandling
 {
     public static class ValidationResultTranslator
     {

@@ -3,11 +3,11 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WeatherForecast.VerticalSlices.ExeptionHandling;
+using WeatherForecast.VerticalSlices.ExceptionHandling;
 
 namespace WeatherForecast.WebApi
 {
-    public class ExeptionHandlingMiddleware : IMiddleware
+    public class ExceptionHandlingMiddleware : IMiddleware
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {

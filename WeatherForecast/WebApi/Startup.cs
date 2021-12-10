@@ -8,8 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WeatherForecast.Infrastructure;
-using WeatherForecast.VerticalSlices.ExeptionHandling;
-using WeatherForecast.WebApi.ExeptionHandling;
+using WeatherForecast.VerticalSlices.ExceptionHandling;
 
 namespace WeatherForecast.WebApi
 {
@@ -27,7 +26,6 @@ namespace WeatherForecast.WebApi
         {
             services.AddTransient<IWeatherForecastCreateLocationService, WeatherForecastCreateLocationService>();
             services.AddTransient<IWeatherForecastGetLocationService, WeatherForecastGetLocationService>();
-            services.AddTransient<ExeptionHandlingMiddleware>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
@@ -53,7 +51,7 @@ namespace WeatherForecast.WebApi
 
             app.UseRouting();
 
-            app.UseMiddleware<ExeptionHandlingMiddleware>();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseAuthorization();
 

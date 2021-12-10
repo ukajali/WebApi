@@ -1,18 +1,11 @@
-﻿using FluentValidation;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using WeatherForecast.Core.Contracts;
 using WeatherForecast.Core.Model;
 using WeatherForecast.Core.Model.ValueObjects;
-using WeatherForecast.VerticalSlices;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc;
-using WeatherForecast.VerticalSlices.ExeptionHandling;
 
-namespace WeatherForecast.WebApi.ExeptionHandling
+namespace WeatherForecast.VerticalSlices.ExceptionHandling
 {
     public interface IWeatherForecastGetLocationService
     {

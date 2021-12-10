@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace WeatherForecast.VerticalSlices.ExeptionHandling
+namespace WeatherForecast.VerticalSlices.ExceptionHandling
 {
     public class LocationException : SystemException
     {

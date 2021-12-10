@@ -1,14 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WeatherForecast.Core.Contracts;
-using WeatherForecast.Core.Model;
-using WeatherForecast.Core.Model.ValueObjects;
-using WeatherForecast.VerticalSlices.ExeptionHandling;
-using WeatherForecast.WebApi.ExeptionHandling;
+using WeatherForecast.VerticalSlices.ExceptionHandling;
 
 namespace WeatherForecast.VerticalSlices
 {
